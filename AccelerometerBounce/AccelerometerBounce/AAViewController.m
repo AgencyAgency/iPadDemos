@@ -62,13 +62,17 @@
     
     CGPoint pos = CGPointMake(self.ballXConstraint.constant,
                               self.ballYConstraint.constant);
+
+    // Constrain the X position of the ball:
+    CGFloat maxPosX = CGRectGetWidth(self.view.bounds) - CGRectGetWidth(self.ballView.bounds);
+    pos.x = MIN(maxPosX, MAX(0, pos.x + self.velocity.x));
     
     // Update the X position of the ball:
-    self.ballXConstraint.constant = pos.x + self.velocity.x;
+    self.ballXConstraint.constant = pos.x;
     
     // Constrain the Y position of the ball:
     CGFloat maxPosY = CGRectGetHeight(self.view.bounds) - CGRectGetHeight(self.ballView.bounds);
-    pos.y = MIN(maxPosY, pos.y + self.velocity.y);
+    pos.y = MIN(maxPosY, MAX(0, pos.y + self.velocity.y));
     
     // Update the Y position of the ball:
     self.ballYConstraint.constant = pos.y;
