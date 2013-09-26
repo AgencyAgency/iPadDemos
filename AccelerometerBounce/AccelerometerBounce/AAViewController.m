@@ -26,6 +26,8 @@
 
 @implementation AAViewController
 
+#define DAMPENING_FACTOR 0.9;
+
 - (void)tick:(CADisplayLink *)sender
 {
     CGPoint vel = self.velocity;
@@ -46,8 +48,15 @@
         // Bounce off the top wall:
         vel.y = ABS(vel.y);
     }
+    // Add dampening:
+    if (self.velocity.x != vel.x) {
+        vel.x *= DAMPENING_FACTOR;
+    }
+    if (self.velocity.y != vel.y) {
+        vel.y *= DAMPENING_FACTOR;
+    }
+    
     // Add gravity to the velocity
-//    vel.y += self.gravity;
     self.velocity = vel;
     [self updateVelocityWithAcceleration];
     
